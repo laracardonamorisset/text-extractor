@@ -1,0 +1,32 @@
+import os
+import openai
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+response = openai.ChatCompletion.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {
+      "role": "system",
+      "content": "You are a list of technologies text extractor. I will input a job description and you will output a list of technologies that the job description requires. \n\nPlease list only the technologies with no other accompanying text. List the name of the technology and the degree of familiarity required. Score the degree of familiarity required with each skill as 5 being the most, and 1 being the least, 0 being not required. \n\nExample:\n\n- Linux : 5\n- Java : 3\n- Git : 1\n"
+    },
+    {
+      "role": "user",
+      "content": "Here is the job description:\n TikTok is the leading destination for short-form mobile video. Our mission is to inspire creativity and bring joy. TikTok has global offices including Los Angeles, New York, London, Paris, Berlin, Dubai, Singapore, Jakarta, Seoul and Tokyo. \n\nWhy Join Us\nAt TikTok, our people are humble, intelligent, compassionate and creative. We create to inspire - for you, for us, and for more than 1 billion users on our platform. We lead with curiosity and aim for the highest, never shying away from taking calculated risks and embracing ambiguity as it comes. Here, the opportunities are limitless for those who dare to pursue bold ideas that exist just beyond the boundary of possibility. Join us and make impact happen with a career at TikTok.\n\nThe Codebase team at TikTok is missioned to build infrastructures, platforms and technologies, as well as to support all of the developers in TikTok. In this team you'll have a unique opportunity to have first-hand exposure to the strategy of the company in code hosting, code review, code analysis, especially in building scalable and reliable systems and solutions. Our challenges are not your regular day-to-day technical problems - you'll be part of a team that's developing new solutions to new challenges of a kind not previously addressed by big tech. It's working fast, at scale, and we're making a difference.\n\nAs a Software Engineer in Codebase team, you will be:\n\n1. Responsible for the construction of a code hosting platform, providing developers with high-quality and stable code hosting and R&D collaboration services.\n2. Responsible for the maintenance of code storage services, and completing the architectural design and technical attack of a large-scale distributed Git system.\n3. Continuous tuning of the underlying basic components, to improve the maintainability and automation of the infrastructure, to ensure high availability of business. \n\nQualifications\n\n 1. Computer-related majors, three years or more development experience, good design and coding skills.\n2. Familiar with Linux system and common Linux commands, proficient in any one of the languages C/C++/Go/Java.\n3. Solid skills in computing, storage, networking, and other computer systems, with experience in large-scale system development and design.\n4. Strong experience and ability in system problem analysis, optimistic and passionate about solving challenging problems.\n5. Familiarity with code hosting-related platforms, such as Github, Gitlab, Gerrit, Bitbucket, etc., is preferred.\n6. Familiar with the internal data structure of Git, having some knowledge of Git protocol source code, and having relevant work experience are preferred.\n7. Familiar with distributed systems, having a good understanding of distributed storage system implementation principles, and having relevant work experience is preferred.\n\n\nTikTok is committed to creating an inclusive space where employees are valued for their skills, experiences, and unique perspectives. Our platform connects people from across the globe and so does our workplace. At TikTok, our mission is to inspire creativity and bring joy. To achieve that goal, we are committed to celebrating our diverse voices and to creating an environment that reflects the many communities we reach. We are passionate about this and hope you are too.\n\nTikTok is committed to providing reasonable accommodations during our recruitment process. If you need assistance or an accommodation, please reach out to us at justin.huey@tiktok.com \n\nJob Information:\n\n【For Pay Transparency】Compensation Description (annually) \nThe base salary range for this position in the selected city is $136800 - $205000 annually.​\nCompensation may vary outside of this range depending on a number of factors, including a candidate’s qualifications, skills, competencies and experience, and location. Base pay is one part of the Total Package that is provided to compensate and recognize employees for their work, and this role may be eligible for additional discretionary bonuses/incentives, and restricted stock units.​\nOur company benefits are designed to convey company culture and values, to create an efficient and inspiring work environment, and to support our employees to give their best in both work and life. We offer the following benefits to eligible employees: ​\nWe cover 100% premium coverage for employee medical insurance, approximately 75% premium coverage for dependents and offer a Health Savings Account(HSA) with a company match. As well as Dental, Vision, Short/Long term Disability, Basic Life, Voluntary Life and AD&D insurance plans. In addition to Flexible Spending Account(FSA) Options like Health Care, Limited Purpose and Dependent Care. ​\nOur time off and leave plans are: 10 paid holidays per year plus 17 days of Paid Personal Time Off (PPTO) (prorated upon hire and increased by tenure) and 10 paid sick days per year as well as 12 weeks of paid Parental leave and 8 weeks of paid Supplemental Disability. ​\nWe also provide generous benefits like mental and emotional health benefits through our EAP and Lyra. A 401K company match, gym and cellphone service reimbursements. The Company reserves the right to modify or change these benefits programs at any time, with or without notice.​"
+    }
+
+  ],
+  temperature=1.11,
+  max_tokens=256,
+  top_p=1,
+  frequency_penalty=0,
+  presence_penalty=0
+)
+technology_list=response["choices"][0]["message"]["content"]
+technology_items=technology_list.split("\n")
+print(technology_items)
+for technology in technology_items: 
+    tech, score = technology.split(":")
+    print(tech,score)
+    print(tech)
+    print(score)
